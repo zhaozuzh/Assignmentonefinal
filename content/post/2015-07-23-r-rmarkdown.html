@@ -1,0 +1,84 @@
+---
+title: "Distribution of Canadians' Age"
+author: "Zuzhang Zhao"
+date: 2020-09-22T21:13:14-05:00
+bibliography: "references.bib"
+categories: ["R"]
+tags: ["R Markdown", "plot", "regression"]
+---
+
+
+
+<pre class="r"><code>
+#install.packages(&quot;tidyverse&quot;)
+#install.packages(&quot;devtools&quot;)
+library(&quot;tidyverse&quot;)
+#devtools::install_github(&quot;hodgettsp/cesR&quot;)
+#library(cesR)
+cesR::get_ces(&quot;ces2019_web&quot;)
+## TO CITE THIS SURVEY FILE:
+## 
+## - Stephenson, Laura B; Harell, Allison; Rubenson, Daniel; Loewen, Peter John, 2020, &#39;2019 Canadian Election Study - Online Survey&#39;, https://doi.org/10.7910/DVN/DUS88V, Harvard Dataverse, V1
+## 
+## - Stephenson, Laura, Allison Harrel, Daniel Rubenson and Peter Loewen. Forthcoming. &#39;Measuring Preferences and Behaviour in the 2019 Canadian Election Study,&#39; Canadian Journal of Political Science.
+## 
+## LINK: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DUS88V</code></pre>
+<div id="link-to-github" class="section level1">
+<h1>Link to Github</h1>
+<p><a href="https://github.com/zhaozuzh/Assignmentonefinal" class="uri">https://github.com/zhaozuzh/Assignmentonefinal</a></p>
+</div>
+<div id="abstract" class="section level1">
+<h1>Abstract</h1>
+<p>The Distribution of residents’ age is very important in almost every country. Based on 2019 Canadian Election Study - Online Survey from <span class="citation">Hodgetts and Alexander (2020)</span> , we can fairly get an understanding about Age distribution of Canada and current population ageing problems.</p>
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>In the “2019 Canadian Election Study - Online Survey”, many characteristics of Canadian residents have been collected. One interesting variable is the respondent age in years. It is recorded based on their year of birth. The distribution of respondent age is very important to be known because it represents the workforce in Canada. By understanding the distribution of people’s age, we can identify some essential phenomena and potential problems in Canada.</p>
+<p>By checking the dataset, many respondents did not give the full answer to all the survey questions, but fortunately, all respondents have given their year of birth, so there is no non-response problem. The youngest response is 18 years old, so all observations are effectively useful.</p>
+<p>In this paper, I will focus on respondents’ age, and try to find the distribution of age and discuss some features of it. In the future, I might check the mean, variance of the respondent age, and how it affects other variables. Yet the weakness of my analysis might be the uncertainty about response error.</p>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>We have used devtools (<span class="citation">Wickham, Hester, and Chang (2020)</span>) to import the data.</p>
+<p>The data set “2019 Canadian Election Study - Online Survey” has 37,822 observations. It included a dual-mode, two-wave data collection with a rolling cross-section during the 2019 federal election campaign and a post-election follow-up survey. And the survey contains overall 620 variables that can be used for analyzing. For this assignment, only variable “cps19_age” will be analyzed, but all observations will be used.</p>
+</div>
+<div id="graph" class="section level1">
+<h1>Graph</h1>
+<pre class="r"><code># devtools::install_github(&quot;sharlagelfand/opendatatoronto&quot;)
+# cesR::get_cescodes()
+
+#glimpse(ces2019_web)
+ces2019_age &lt;- ces2019_web %&gt;% select(cps19_age)
+ces2019_age %&gt;% ggplot(aes(x = cps19_age)) + geom_histogram(bins = 18, color = &quot;black&quot;, fills = &quot;grey&quot;) + labs(x = &quot;Age&quot;, y = &quot;Population&quot;, title = &quot;The Distribution of Canadians&#39; Age&quot;, caption = &quot;2019 Canadian Election Study - Online Survey &quot;) + theme_bw()
+## Warning: Ignoring unknown parameters: fills</code></pre>
+<p><img src="/post/2015-07-23-r-rmarkdown_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div id="graph-discussion" class="section level2">
+<h2>Graph Discussion</h2>
+<p>We used tidyverse (<span class="citation">Wickham et al. (2019)</span>) to plot the distribution of Age.</p>
+<p>Through the plot, we can see the distribution of Age is Bi-modal and right-skewed (more outliers shown on the right side of the distribution). The center of the distribution is about 50 years old, and the Two modes are around 30 and 60. There are a few outliers whose ages are greater than 100. And no observations are less than 18. So the overall range of the distribution of Age is about 82 years.</p>
+</div>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+<p>Surprisingly, the number of people who are aged 50s is less than people who are age in 60s. It implies clearly about the problem of population ageing (an increasing median age in a population due to declining fertility rates and rising life expectancy)</p>
+<p>The Bimodal distribution also shows that people who have aged around 30s are also the majority of labor forces in society, but population size starts to decrease as age increases from 30 to nearly 60. This phenomenon shows the potential health problems for the middle-aged people.</p>
+<p>Furthermore, the Upper bound of the distribution is 100, which is not realistic because there is definitely some population have passed 100 years old, it is a potential measurement error in the dataset.</p>
+<div id="weekness" class="section level2">
+<h2>Weekness</h2>
+<p>But the weakness of the data set is that the data are collected through a web-based survey, some young people might choose to use the alternative survey (cell phone) which is not contained in our data set. For future steps, more data analysis will be done about respondent age and other potential variables. For example, we might check the mean, variance of the respondent age, and how it affects other variables. Also, it is possible to combine the cell-phone based survey with the current data set to get a better understanding of the respondent age</p>
+</div>
+</div>
+<div id="reference" class="section level1 unnumbered">
+<h1>Reference</h1>
+<div id="refs" class="references">
+<div id="ref-citecesR">
+<p>Hodgetts, Paul A., and Rohan Alexander. 2020. <em>CesR: Access the Ces Datasets a Little Easier.</em></p>
+</div>
+<div id="ref-citetidyverse">
+<p>Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. “Welcome to the tidyverse.” <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.</p>
+</div>
+<div id="ref-citedevtools">
+<p>Wickham, Hadley, Jim Hester, and Winston Chang. 2020. <em>Devtools: Tools to Make Developing R Packages Easier</em>. <a href="https://CRAN.R-project.org/package=devtools">https://CRAN.R-project.org/package=devtools</a>.</p>
+</div>
+</div>
+</div>

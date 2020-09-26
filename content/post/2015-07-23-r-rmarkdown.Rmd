@@ -1,0 +1,76 @@
+---
+title: "Distribution of Canadians' Age"
+author: "Zuzhang Zhao"
+date: 2020-09-22T21:13:14-05:00
+bibliography: "references.bib"
+categories: ["R"]
+tags: ["R Markdown", "plot", "regression"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+
+```{r download, warning=FALSE, message=FALSE}
+
+#install.packages("tidyverse")
+#install.packages("devtools")
+library("tidyverse")
+#devtools::install_github("hodgettsp/cesR")
+#library(cesR)
+cesR::get_ces("ces2019_web")
+```
+# Link to Github
+https://github.com/zhaozuzh/Assignmentonefinal
+
+# Abstract
+The Distribution of residents' age is very important in almost every country. Based on 2019 Canadian Election Study - Online Survey from @citecesR , we can fairly get an understanding about Age distribution of Canada and current population ageing problems.
+
+
+# Introduction
+
+In the "2019 Canadian Election Study - Online Survey", many characteristics of Canadian residents have been collected. One interesting variable is the respondent age in years. It is recorded based on their year of birth. The distribution of respondent age is very important to be known because it represents the workforce in Canada. By understanding the distribution of people's age, we can identify some essential phenomena and potential problems in Canada. 
+
+By checking the dataset, many respondents did not give the full answer to all the survey questions, but fortunately, all respondents have given their year of birth, so there is no non-response problem. The youngest response is 18 years old, so all observations are effectively useful.
+
+In this paper, I will focus on respondents' age, and try to find the distribution of age and discuss some features of it. In the future, I might check the mean, variance of the respondent age, and how it affects other variables. Yet the weakness of my analysis might be the uncertainty about response error.
+
+
+# Data
+
+We have used devtools (@citedevtools) to import the data.
+
+The data set "2019 Canadian Election Study - Online Survey" has 37,822 observations. It included a dual-mode, two-wave data collection with a rolling cross-section during the 2019 federal election campaign and a post-election follow-up survey. And the survey contains overall 620 variables that can be used for analyzing. For this assignment, only variable "cps19_age" will be analyzed, but all observations will be used.
+
+# Graph
+```{r}
+# devtools::install_github("sharlagelfand/opendatatoronto")
+# cesR::get_cescodes()
+
+#glimpse(ces2019_web)
+ces2019_age <- ces2019_web %>% select(cps19_age)
+ces2019_age %>% ggplot(aes(x = cps19_age)) + geom_histogram(bins = 18, color = "black", fills = "grey") + labs(x = "Age", y = "Population", title = "The Distribution of Canadians' Age", caption = "2019 Canadian Election Study - Online Survey ") + theme_bw()
+
+```
+
+## Graph Discussion
+We used tidyverse (@citetidyverse) to plot the distribution of Age.
+
+Through the plot, we can see the distribution of Age is Bi-modal and right-skewed (more outliers shown on the right side of the distribution). The center of the distribution is about 50 years old, and the Two modes are around 30 and 60. There are a few outliers whose ages are greater than 100. And no observations are less than 18. So the overall range of the distribution of Age is about 82 years.
+
+
+# Discussion
+
+Surprisingly, the number of people who are aged 50s is less than people who are age in 60s. It implies clearly about the problem of population ageing (an increasing median age in a population due to declining fertility rates and rising life expectancy)
+
+The Bimodal distribution also shows that people who have aged around 30s are also the majority of labor forces in society, but population size starts to decrease as age increases from 30 to nearly 60. This phenomenon shows the potential health problems for the middle-aged people.
+
+Furthermore, the Upper bound of the distribution is 100, which is not realistic because there is definitely some population have passed 100 years old, it is a potential measurement error in the dataset.
+
+
+## Weekness
+
+But the weakness of the data set is that the data are collected through a web-based survey, some young people might choose to use the alternative survey (cell phone) which is not contained in our data set. For future steps, more data analysis will be done about respondent age and other potential variables. For example, we might check the mean, variance of the respondent age, and how it affects other variables. Also, it is possible to combine the cell-phone based survey with the current data set to get a better understanding of the respondent age
+
+# Reference
